@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+pytest-cache-files-*/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Local data and generated artifacts
+data/raw/*
+data/processed/*
+outputs/*
+models/*
+!data/
+!data/raw/
+!data/raw/.gitkeep
+!data/processed/
+!data/processed/.gitkeep
+!outputs/
+!outputs/reports/
+!outputs/reports/.gitkeep
+!outputs/models/
+!outputs/models/.gitkeep
+!models/
+!models/.gitkeep
+
+# Local model and API cache files
+*.gguf
+*.safetensors
+.cache/
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

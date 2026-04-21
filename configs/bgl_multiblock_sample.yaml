@@ -1,0 +1,81 @@
+project:
+  name: thesis-log-anomaly
+  random_seed: 42
+
+data:
+  dataset: bgl
+  dataset_subdir: bgl_multiblock_sample
+  raw_dir: data/raw
+  interim_dir: data/interim
+  processed_dir: data/processed
+  label_column: label
+  text_column: log
+  timestamp_column: timestamp
+  history_fraction: 0.3
+  rare_template_count_threshold: 2
+
+windowing:
+  mode: count
+  size: 100
+  overlap: 0.5
+  stride: 50
+  grouping_key: null
+  label_rule: any_anomaly
+
+parsing:
+  method: drain
+  ini_path: configs/legacy/drain3.ini
+  stream_mode: true
+  update_model_online: true
+  dual_state_reference: true
+  reference_full_search_strategy: fallback
+  live_full_search_strategy: fallback
+  drain:
+    depth: 4
+    similarity_threshold: 0.5
+    max_children: 100
+
+features:
+  include_template_counts: true
+  include_unique_templates: true
+  include_sequence_metrics: true
+  include_label_ratio: true
+
+evt:
+  method: gev
+  target_statistic: max_cluster_size
+  ensemble_enabled: true
+  ensemble_statistics: unique_templates,template_entropy,historically_rare_template_ratio,unseen_in_history_ratio
+  tail: upper
+  significance_level: 0.90
+  min_windows_for_fit: 3
+
+pot:
+  enabled: false
+  per_window: true
+  score_target: event_novelty
+  threshold_quantile: 0.95
+  tail_alpha: 0.10
+  min_exceedances: 5
+
+llm:
+  enabled: false
+  max_windows_for_review: 25
+  prompt_template: default-triage
+
+pre_model:
+  enabled: true
+  output_csv: data/processed/bgl_multiblock_sample_pre_model_windows.csv
+  output_report: outputs/reports/bgl_multiblock_sample_pre_model_readiness.json
+  output_note: outputs/reports/bgl_multiblock_sample_pre_model_methodology.md
+  event_count_features:
+    enabled: true
+    top_k: 100
+  split:
+    strategy: block_aware
+    train_fraction: 0.50
+    validation_fraction: 0.25
+
+evaluation:
+  enabled: true
+  output_path: outputs/reports/bgl_multiblock_sample_pre_llm_evaluation.json

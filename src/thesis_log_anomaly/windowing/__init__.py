@@ -1,0 +1,1 @@
+"""Sliding window generation helpers."""

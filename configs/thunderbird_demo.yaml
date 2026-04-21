@@ -1,0 +1,65 @@
+project:
+  name: thesis-log-anomaly
+  random_seed: 42
+
+data:
+  dataset: thunderbird
+  raw_dir: data/raw
+  interim_dir: data/interim
+  processed_dir: data/processed
+  label_column: label
+  text_column: message
+  timestamp_column: timestamp
+  history_fraction: 0.3
+  rare_template_count_threshold: 2
+
+windowing:
+  mode: count
+  size: 100
+  overlap: 0.5
+  stride: 50
+  grouping_key: null
+  label_rule: any_anomaly
+
+parsing:
+  method: drain
+  scope: per_window
+  ini_path: configs/legacy/drain3.ini
+  stream_mode: false
+  update_model_online: true
+  drain:
+    depth: 4
+    similarity_threshold: 0.5
+    max_children: 100
+
+features:
+  include_template_counts: true
+  include_unique_templates: true
+  include_sequence_metrics: true
+  include_label_ratio: true
+
+evt:
+  method: gev
+  target_statistic: historically_rare_template_ratio
+  ensemble_enabled: false
+  ensemble_statistics: ""
+  tail: upper
+  significance_level: 0.90
+  min_windows_for_fit: 3
+
+pot:
+  enabled: true
+  per_window: true
+  score_target: event_novelty
+  threshold_quantile: 0.60
+  tail_alpha: 0.30
+  min_exceedances: 1
+
+llm:
+  enabled: false
+  max_windows_for_review: 25
+  prompt_template: default-triage
+
+evaluation:
+  enabled: true
+  output_path: outputs/reports/thunderbird_demo_evaluation.json
