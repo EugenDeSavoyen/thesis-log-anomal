@@ -6,6 +6,12 @@ The pipeline parses raw logs into templates, builds chronological or block-aware
 
 The LLM stage is evaluated as a bounded incident reviewer rather than a raw-stream classifier. The repository includes prompt templates and a repeated-run stability script for checking whether inspect/ignore decisions change across uncached LLM runs.
 
+## AI Tool Disclosure
+
+Large language model assistants, including OpenAI ChatGPT/Codex-family tools, were used in a supporting role during this project. Their use included literature search support and preliminary analysis of related work, coding assistance, script refactoring, consistency checks between reported metrics and generated artifacts, table/summary preparation, and English proofreading.
+
+All research questions, system design choices, experiment protocols, interpretation of results, and final wording remain the author's responsibility. AI tools were not used to fabricate experimental data, invent citations, replace evaluation scripts, or substitute for the author's analytical contribution. The local LLM used in experiments is treated separately as an evaluated component of the anomaly-detection pipeline.
+
 ## Repository Layout
 
 - `src/thesis_log_anomaly/` - reusable pipeline modules.
