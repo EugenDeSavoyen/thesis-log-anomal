@@ -4,15 +4,18 @@ This repository contains the code for a thesis project on anomaly detection in p
 
 The pipeline parses raw logs into templates, builds chronological or block-aware windows, scores suspicious regions with statistical tail models, evaluates classical baselines, and prepares bounded review packets for semantic triage.
 
+The LLM stage is evaluated as a bounded incident reviewer rather than a raw-stream classifier. The repository includes prompt templates and a repeated-run stability script for checking whether inspect/ignore decisions change across uncached LLM runs.
+
 ## Repository Layout
 
 - `src/thesis_log_anomaly/` - reusable pipeline modules.
 - `scripts/` - experiment and evaluation entry points.
 - `configs/` - reproducible configuration files.
 - `prompts/` - prompt templates used by optional triage experiments.
+- `outputs/reports/streaming_llm_stability_*` - compact stability summaries for the incident-level LLM detector.
 - `tests/` - smoke and unit tests.
 
-Generated data, reports, model weights, and local caches are intentionally not versioned.
+Large generated data, full per-run LLM outputs, model weights, and local caches are intentionally not versioned. Small stability summaries are kept because they document the repeated-run evidence used in the report.
 
 ## Setup
 
@@ -37,6 +40,14 @@ Run classical baseline evaluation:
 ```powershell
 python scripts\run_classical_triage_baseline.py
 ```
+
+Evaluate incident-level LLM stability over a fixed packet set:
+
+```powershell
+python scripts\run_streaming_llm_stability_experiment.py --n-runs 10 --output-dir outputs\reports\streaming_llm_stability_gap100_v3_n10
+```
+
+The stability runner expects previously generated streaming incident packets, region files, and local Ollama access to the configured model. The committed summaries report 10 repeated runs for the default temperature plus two temperature stress checks.
 
 Run tests:
 

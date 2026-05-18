@@ -24,6 +24,15 @@ models/*
 !outputs/
 !outputs/reports/
 !outputs/reports/.gitkeep
+!outputs/reports/streaming_llm_stability_gap100_v3_n10/
+!outputs/reports/streaming_llm_stability_gap100_v3_n10/stability_summary.md
+!outputs/reports/streaming_llm_stability_gap100_v3_n10/stability_summary.json
+!outputs/reports/streaming_llm_stability_gap100_v3_temp07_n10/
+!outputs/reports/streaming_llm_stability_gap100_v3_temp07_n10/stability_summary.md
+!outputs/reports/streaming_llm_stability_gap100_v3_temp07_n10/stability_summary.json
+!outputs/reports/streaming_llm_stability_gap100_v3_temp15_n10/
+!outputs/reports/streaming_llm_stability_gap100_v3_temp15_n10/stability_summary.md
+!outputs/reports/streaming_llm_stability_gap100_v3_temp15_n10/stability_summary.json
 !outputs/models/
 !outputs/models/.gitkeep
 !models/
